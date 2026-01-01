@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Book Store - List of Books</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f4; }
+        h1 { color: #333; text-align: center; }
+        ul { list-style: none; padding: 0; }
+        li { background: white; margin: 10px 0; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .price { font-weight: bold; color: #2c3e50; }
+        .category { color: #6044ad; font-weight: bold; }
+        .publisher { color: #7f8c8d; }
+    </style>
+</head>
+<body>
+    <h1>My Book Store</h1>
+    <h2>List of Books ({{ books.count }} books)</h2>
+
+    {% if books %}
+        <ul>
+        {% for book in books %}
+            <li>
+                <h3>{{ book.name }}</h3>
+                <p><strong>Author:</strong> {{ book.author|default:"Unknown" }}</p>
+                <p><strong>Published Date:</strong> {{ book.published_date|date:"Y-m-d"|default:"Not specified" }}</p>
+                <p class="price"><strong>Price:</strong>
+                    {% if book.price %}
+                        {{ book.price|floatformat:2 }}
+                        {% if book.currency == 'TOMAN' %}Toman{% else %}USD{% endif %}
+                    {% else %}
+                        Price not available
+                    {% endif %}
+                </p>
+                <p class="category"><strong>Category:</strong> {{ book.get_category_display }}</p>
+                <p><strong>Page Count:</strong> {{ book.page_count|default:"Not specified" }}</p>
+                <p class="publisher"><strong>Publisher:</strong> {{ book.publisher|default:"Not specified" }}</p>
+                <p><strong>Description:</strong> {{ book.description|default:"No description" }}</p>
+                <p><small><strong>Added on:</strong> {{ book.created_at|date:"Y-m-d H:i" }}</small></p>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No books available yet.</p>
+    {% endif %}
+</body>
+</html>
