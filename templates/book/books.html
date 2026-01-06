@@ -1,0 +1,55 @@
+<nav style="margin-bottom: 40px;">
+    <a href="{% url 'home_page' %}" style="margin: 0 20px; font-size: 1.2em; text-decoration: none; color: #007bff;">خانه</a>
+    <a href="{% url 'books_list_page' %}" style="margin: 0 20px; font-size: 1.2em; text-decoration: none; color: #007bff;">لیست کتاب‌ها</a>
+</nav>
+
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فروشگاه کتاب من</title>
+    <style>
+        body { font-family: Tahoma, Arial, sans-serif; margin: 40px; background-color: #f8f9fa; direction: rtl; }
+        h1 { color: #343a40; text-align: center; }
+        h2 { text-align: center; color: #495057; margin-bottom: 30px; }
+        .book-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+        .book-card { background: white; width: 300px; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .book-card h3 { margin: 0 0 10px 0; color: #007bff; }
+        .price { font-weight: bold; color: #28a745; font-size: 1.2em; }
+        .category { color: #6f42c1; font-weight: bold; }
+        .no-books { text-align: center; color: #6c757d; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+    <h1>فروشگاه کتاب من</h1>
+    <h2>لیست کتاب‌ها ({{ books.count }} کتاب)</h2>
+
+    {% if books %}
+        <div class="book-list">
+        {% for book in books %}
+            <div class="book-card">
+                <h3>{{ book.name }}</h3>
+                <p><strong>نویسنده:</strong> {{ book.author|default:"نامشخص" }}</p>
+                <p><strong>تاریخ انتشار:</strong> {{ book.published_date|date:"Y/m/d"|default:"نامشخص" }}</p>
+                <p class="price"><strong>قیمت:</strong>
+                    {% if book.price %}
+                        {{ book.price|floatformat:0 }} تومان
+                    {% else %}
+                        قیمت نامشخص
+                    {% endif %}
+                </p>
+                <p class="category"><strong>ژانر:</strong> {{ book.get_category_display }}</p>
+                <p><strong>تعداد صفحه:</strong> {{ book.page_count|default:"نامشخص" }}</p>
+                <p><strong>ناشر:</strong> {{ book.publisher|default:"نامشخص" }}</p>
+                <p><strong>توضیحات:</strong> {{ book.description|default:"بدون توضیح" }}</p>
+                <p><small><strong>اضافه شده در:</strong> {{ book.created_at|date:"Y/m/d H:i" }}</small></p>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-books">هنوز هیچ کتابی اضافه نشده است.</p>
+    {% endif %}
+</body>
+</html>

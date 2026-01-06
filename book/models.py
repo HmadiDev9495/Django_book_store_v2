@@ -17,7 +17,7 @@ class Book(models.Model):
     name = models.CharField(max_length=200)
     author = models.CharField(max_length=100, blank=True)
     published_date = models.DateField(null=True, blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     category = models.CharField(max_length=2, choices=CATEGORY_CHOICES, default='FN')
     currency = models.CharField(max_length=5, choices=CURRENCY_CHOICES, default='TOMAN')
     page_count = models.PositiveIntegerField(default=0, blank=True, null=True)

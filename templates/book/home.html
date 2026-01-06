@@ -1,0 +1,36 @@
+<nav style="margin-bottom: 40px;">
+    <a href="{% url 'home_page' %}" style="margin: 0 20px; font-size: 1.2em; text-decoration: none; color: #007bff;">خانه</a>
+    <a href="{% url 'books_list_page' %}" style="margin: 0 20px; font-size: 1.2em; text-decoration: none; color: #007bff;">لیست کتاب‌ها</a>
+</nav>
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فروشگاه کتاب من - خانه</title>
+    <style>
+        body { font-family: Tahoma, sans-serif; margin: 40px; background: linear-gradient(to bottom, #f8f9fa, #e9ecef); text-align: center; }
+        h1 { color: #343a40; margin-bottom: 20px; }
+        p { font-size: 1.2em; color: #495057; max-width: 700px; margin: 20px auto; line-height: 1.6; }
+        .btn { display: inline-block; padding: 12px 30px; margin: 20px; background: #007bff; color: white; text-decoration: none; border-radius: 8px; font-size: 1.1em; }
+        .btn:hover { background: #0056b3; }
+        footer { margin-top: 100px; color: #6c757d; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <h1>خوش آمدید به فروشگاه کتاب من</h1>
+    <p>
+        این یک فروشگاه ساده کتاب است که با Django ساخته شده.
+        می‌توانید کتاب‌های مورد علاقه‌تان را ببینید، اضافه کنید و مدیریت کنید.
+    </p>
+    <p>
+        برای دیدن لیست کتاب‌ها روی دکمه زیر کلیک کنید:
+    </p>
+    <a href="{% url 'books_list_page' %}" class="btn">لیست کتاب‌ها</a>
+
+    <footer>
+        ساخته شده با ❤️ و Django - سال ۲۰۲۶
+    </footer>
+</body>
+</html>
