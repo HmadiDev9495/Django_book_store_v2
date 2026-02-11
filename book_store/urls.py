@@ -3,5 +3,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('book.urls')),  # حالا درست کار می‌کنه
+    path('book/', include('book.urls')),
+    path('api/auth/', include('book.user.urls')),
+    path('', include('book.urls')),
 ]

@@ -1,55 +1,285 @@
-<nav style="margin-bottom: 40px;">
-    <a href="{% url 'home_page' %}" style="margin: 0 20px; font-size: 1.2em; text-decoration: none; color: #007bff;">خانه</a>
-    <a href="{% url 'books_list_page' %}" style="margin: 0 20px; font-size: 1.2em; text-decoration: none; color: #007bff;">لیست کتاب‌ها</a>
-</nav>
-
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فروشگاه کتاب من</title>
+    <title>کتابخانه مرموز | مجموعه کتاب‌ها</title>
     <style>
-        body { font-family: Tahoma, Arial, sans-serif; margin: 40px; background-color: #f8f9fa; direction: rtl; }
-        h1 { color: #343a40; text-align: center; }
-        h2 { text-align: center; color: #495057; margin-bottom: 30px; }
-        .book-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
-        .book-card { background: white; width: 300px; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .book-card h3 { margin: 0 0 10px 0; color: #007bff; }
-        .price { font-weight: bold; color: #28a745; font-size: 1.2em; }
-        .category { color: #6f42c1; font-weight: bold; }
-        .no-books { text-align: center; color: #6c757d; font-size: 1.2em; }
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+
+        /* ناوبری */
+        nav {
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        /* هدر صفحه */
+        .header {
+            text-align: center;
+            padding: 60px 20px;
+            background: radial-gradient(ellipse at center, rgba(123, 44, 191, 0.2) 0%, transparent 70%);
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            color: #888;
+            font-size: 1.2em;
+        }
+
+        .book-count {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 25px;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 25px;
+            color: #00d4ff;
+        }
+
+        /* گرید کتاب‌ها */
+        .books-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        /* کارت کتاب */
+        .book-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .book-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf, #ff006e);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 212, 255, 0.1);
+        }
+
+        .book-card:hover::before {
+            opacity: 1;
+        }
+
+        /* دسته‌بندی رنگی */
+        .category-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .category-SC { background: rgba(0, 212, 255, 0.2); color: #00d4ff; }
+        .category-FN { background: rgba(255, 0, 110, 0.2); color: #ff006e; }
+        .category-HC { background: rgba(255, 190, 11, 0.2); color: #ffbe0b; }
+        .category-RM { background: rgba(251, 86, 7, 0.2); color: #fb5607; }
+        .category-TH { background: rgba(131, 56, 236, 0.2); color: #8338ec; }
+
+        .book-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .book-author {
+            color: #888;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+
+        .book-author::before {
+            content: '✍ ';
+            color: #00d4ff;
+        }
+
+        .book-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #aaa;
+            font-size: 0.9em;
+        }
+
+        .meta-item span {
+            color: #00d4ff;
+        }
+
+        .price-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(45deg, rgba(0, 212, 255, 0.2), rgba(123, 44, 191, 0.2));
+            border-radius: 25px;
+            color: #00d4ff;
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        .book-description {
+            color: #999;
+            line-height: 1.8;
+            margin-top: 15px;
+            font-size: 0.95em;
+        }
+
+        .date-added {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        /* حالت خالی */
+        .empty-state {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .empty-state .icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .empty-state h2 {
+            color: #666;
+            font-size: 1.5em;
+        }
     </style>
 </head>
 <body>
-    <h1>فروشگاه کتاب من</h1>
-    <h2>لیست کتاب‌ها ({{ books.count }} کتاب)</h2>
+    <nav>
+        <a href="{% url 'home_page' %}">خانه</a>
+        <a href="{% url 'books-list-page' %}">کتابخانه</a>
+        <a href="{% url 'index' %}">درباره ما</a>
+    </nav>
+
+    <div class="header">
+        <h1>📚 مجموعه کتاب‌ها</h1>
+        <p>گنجینه‌ای از داستان‌های مرموز و ناشناخته</p>
+        {% if books %}
+            <div class="book-count">{{ books.count }} کتاب یافت شد</div>
+        {% endif %}
+    </div>
 
     {% if books %}
-        <div class="book-list">
+        <div class="books-container">
         {% for book in books %}
             <div class="book-card">
-                <h3>{{ book.name }}</h3>
-                <p><strong>نویسنده:</strong> {{ book.author|default:"نامشخص" }}</p>
-                <p><strong>تاریخ انتشار:</strong> {{ book.published_date|date:"Y/m/d"|default:"نامشخص" }}</p>
-                <p class="price"><strong>قیمت:</strong>
+                <span class="date-added">{{ book.created_at|date:"Y/m/d" }}</span>
+
+                <span class="category-badge category-{{ book.category }}">
+                    {{ book.get_category_display }}
+                </span>
+
+                <h3 class="book-title">{{ book.name }}</h3>
+                <p class="book-author">{{ book.author|default:"نویسنده ناشناس" }}</p>
+
+                <div class="book-meta">
+                    <div class="meta-item">
+                        <span>📄</span> {{ book.page_count|default:"؟" }} صفحه
+                    </div>
+                    <div class="meta-item">
+                        <span>🏛</span> {{ book.publisher|default:"ناشر نامشخص" }}
+                    </div>
+                    <div class="meta-item">
+                        <span>📅</span> {{ book.published_date|date:"Y"|default:"؟" }}
+                    </div>
+                </div>
+
+                <div class="price-tag">
+                    💎
                     {% if book.price %}
                         {{ book.price|floatformat:0 }} تومان
                     {% else %}
-                        قیمت نامشخص
+                        نامشخص
                     {% endif %}
+                </div>
+
+                <p class="book-description">
+                    {{ book.description|default:"بدون توضیحات..."|truncatewords:20 }}
                 </p>
-                <p class="category"><strong>ژانر:</strong> {{ book.get_category_display }}</p>
-                <p><strong>تعداد صفحه:</strong> {{ book.page_count|default:"نامشخص" }}</p>
-                <p><strong>ناشر:</strong> {{ book.publisher|default:"نامشخص" }}</p>
-                <p><strong>توضیحات:</strong> {{ book.description|default:"بدون توضیح" }}</p>
-                <p><small><strong>اضافه شده در:</strong> {{ book.created_at|date:"Y/m/d H:i" }}</small></p>
             </div>
         {% endfor %}
         </div>
     {% else %}
-        <p class="no-books">هنوز هیچ کتابی اضافه نشده است.</p>
+        <div class="empty-state">
+            <div class="icon">📭</div>
+            <h2>هنوز هیچ کتابی اضافه نشده است</h2>
+            <p>اولین کتاب را به کتابخانه اضافه کنید...</p>
+        </div>
     {% endif %}
 </body>
 </html>

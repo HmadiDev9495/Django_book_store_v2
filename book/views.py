@@ -5,6 +5,12 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Book
 from .forms import CreateBook
 from django.shortcuts import render
+from .serializers import BookSerializer
+from rest_framework.views import APIView
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from book.user.permissions import IsAuthorOrReadOnly
+
 
 def current_datetime(request):
     print('request method is', request.method)
@@ -63,3 +69,33 @@ def books_list_page(request):
 
 def home_page(request):
     return render(request, 'book/home.html')
+
+def get_all_books(request):
+    books = list(Book.objects.values())
+    return JsonResponse(books, safe=False)
+
+class BookAPI(APIView):
+    def post(self, request):
+        body = json.loads(request.body.decode('utf-8'))
+        serializer = BookSerializer(data=body)
+        if serializer.is_valid():
+            book = serializer.save()
+            return JsonResponse({'book_id': book.id})
+        return JsonResponse({'error': 'Data format is not correct'}, status=400)
+
+    def get(self, request):
+        books = list(Book.objects.values())
+        return JsonResponse(books, safe=False)
+
+class BookGenericAPI(generics.ListCreateAPIView):
+    serializer_class = BookSerializer
+    queryset = Book.objects.all()
+
+class GetBookAPI(generics.RetrieveDestroyAPIView):
+    serializer_class = BookSerializer
+    queryset = Book.objects.all()
+    lookup_field = "price"
+    permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
+
+def index(request):
+    return render(request, 'book/index.html')

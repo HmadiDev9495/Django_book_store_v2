@@ -1,36 +1,238 @@
-<nav style="margin-bottom: 40px;">
-    <a href="{% url 'home_page' %}" style="margin: 0 20px; font-size: 1.2em; text-decoration: none; color: #007bff;">خانه</a>
-    <a href="{% url 'books_list_page' %}" style="margin: 0 20px; font-size: 1.2em; text-decoration: none; color: #007bff;">لیست کتاب‌ها</a>
-</nav>
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فروشگاه کتاب من - خانه</title>
+    <title>کتابخانه مرموز | صفحه اصلی</title>
     <style>
-        body { font-family: Tahoma, sans-serif; margin: 40px; background: linear-gradient(to bottom, #f8f9fa, #e9ecef); text-align: center; }
-        h1 { color: #343a40; margin-bottom: 20px; }
-        p { font-size: 1.2em; color: #495057; max-width: 700px; margin: 20px auto; line-height: 1.6; }
-        .btn { display: inline-block; padding: 12px 30px; margin: 20px; background: #007bff; color: white; text-decoration: none; border-radius: 8px; font-size: 1.1em; }
-        .btn:hover { background: #0056b3; }
-        footer { margin-top: 100px; color: #6c757d; font-size: 0.9em; }
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        /* افکت ستاره‌ها */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* ناوبری */
+        nav {
+            position: relative;
+            z-index: 10;
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* محتوای اصلی */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 4em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #00d4ff, #7b2cbf, #ff006e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.3)); }
+            to { filter: drop-shadow(0 0 30px rgba(123, 44, 191, 0.5)); }
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #888;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .description {
+            max-width: 600px;
+            margin: 0 auto 50px;
+            line-height: 2;
+            color: #b0b0b0;
+            font-size: 1.1em;
+        }
+
+        /* دکمه اصلی */
+        .btn-primary {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #00d4ff, #7b2cbf);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4);
+        }
+
+        /* آیکون کتاب */
+        .book-icon {
+            font-size: 5em;
+            margin-bottom: 30px;
+            opacity: 0.8;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* فوتر */
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            color: #555;
+            font-size: 0.9em;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        footer span {
+            color: #ff006e;
+        }
     </style>
 </head>
 <body>
-    <h1>خوش آمدید به فروشگاه کتاب من</h1>
-    <p>
-        این یک فروشگاه ساده کتاب است که با Django ساخته شده.
-        می‌توانید کتاب‌های مورد علاقه‌تان را ببینید، اضافه کنید و مدیریت کنید.
-    </p>
-    <p>
-        برای دیدن لیست کتاب‌ها روی دکمه زیر کلیک کنید:
-    </p>
-    <a href="{% url 'books_list_page' %}" class="btn">لیست کتاب‌ها</a>
+    <!-- افکت ستاره‌ها -->
+    <div class="stars" id="stars"></div>
+
+    <nav>
+        <a href="{% url 'home_page' %}">خانه</a>
+        <a href="{% url 'books-list-page' %}">کتابخانه</a>
+        <a href="{% url 'index' %}">درباره ما</a>
+    </nav>
+
+    <div class="container">
+        <div class="book-icon">📚</div>
+        <h1>کتابخانه مرموز</h1>
+        <p class="subtitle">سفری به اعماق داستان‌ها</p>
+        <p class="description">
+            در این کتابخانه مرموز، هر کتاب دریچه‌ای است به دنیایی ناشناخته.
+            از میان صفحات زرد شده و داستان‌های فراموش شده، گنجینه‌ای پیدا کن
+            که روحت را تسخیر کند.
+        </p>
+        <a href="{% url 'books-list-page' %}" class="btn-primary">
+            ورود به کتابخانه
+        </a>
+    </div>
 
     <footer>
-        ساخته شده با ❤️ و Django - سال ۲۰۲۶
+        ساخته شده با <span>❤</span> و جادوی کد | ۱۴۰۴
     </footer>
+
+    <script>
+        // ساخت ستاره‌های تصادفی
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+    </script>
 </body>
 </html>

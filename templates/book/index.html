@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کتابخانه مرموز | درباره ما</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+
+        nav {
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .mystery-icon {
+            font-size: 6em;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .quote {
+            font-size: 1.3em;
+            color: #888;
+            font-style: italic;
+            margin: 40px 0;
+            padding: 30px;
+            border-right: 3px solid #00d4ff;
+            background: rgba(0, 212, 255, 0.05);
+            text-align: right;
+        }
+
+        .quote::before {
+            content: '"';
+            font-size: 3em;
+            color: #00d4ff;
+            line-height: 0.1;
+            vertical-align: -20px;
+            margin-left: 10px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .feature {
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+
+        .feature h3 {
+            color: #00d4ff;
+            margin-bottom: 10px;
+        }
+
+        .feature p {
+            color: #888;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'home_page' %}">خانه</a>
+        <a href="{% url 'books-list-page' %}">کتابخانه</a>
+        <a href="{% url 'index' %}">درباره ما</a>
+    </nav>
+
+    <div class="container">
+        <div class="mystery-icon">🌙</div>
+        <h1>کتابخانه مرموز</h1>
+
+        <p style="color: #aaa; line-height: 2; font-size: 1.1em;">
+            اینجا جایی است که داستان‌ها زنده می‌شوند. هر کتاب، دریچه‌ای است به دنیایی ناشناخته،
+            هر صفحه رازی را پنهان کرده و هر کلمه جادویی دارد که منتظر کشف شدن است.
+        </p>
+
+        <div class="quote">
+            کتاب‌ها آینه‌هایی هستند که در آن‌ها تنها آنچه را که از قبل در درون خود داری، می‌بینی.
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">📚</div>
+                <h3>گنجینه نادر</h3>
+                <p>کتاب‌هایی که گم شده‌اند و منتظر یافتن</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔮</div>
+                <h3>پیشگویی</h3>
+                <p>داستان‌هایی که آینده را می‌گویند</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🗝</div>
+                <h3>رازهای پنهان</h3>
+                <p>هر کتاب کلیدی است به دنیایی دیگر</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

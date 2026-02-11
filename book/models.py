@@ -26,12 +26,42 @@ class Book(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def price_with_currency(self):
+        if self.price is None:
+            return "قیمت نامشخص"
         if self.currency == 'TOMAN':
             return f"{self.price:,.0f} Toman"
         else:
             return f"${self.price:,.2f}"
 
     price_with_currency.short_description = 'Price'
+
+    def __str__(self):
+        return self.name
+
+
+
+class BaseBook(models.Model):
+    name = models.CharField(max_length=50)
+    published_date = models.DateField()
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        abstract = True
+
+
+class DifferentBook(BaseBook):
+    pass
+
+
+class ImageBook(models.Model):
+    name = models.CharField(max_length=50, verbose_name="Image Name")
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="images",
+                             related_query_name="image_query")
+
+    class Meta:
+        verbose_name = "Images of Book"
 
     def __str__(self):
         return self.name
