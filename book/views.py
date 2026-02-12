@@ -9,7 +9,7 @@ from .serializers import BookSerializer
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from book.user.permissions import IsAuthorOrReadOnly
+from user.permissions import IsAuthorOrReadOnly
 
 
 def current_datetime(request):

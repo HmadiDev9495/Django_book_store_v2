@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'book.apps.BookConfig',
-    'book.user',
+    'user.apps.UserConfig',
 ]
 
 MIDDLEWARE = [
