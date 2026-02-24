@@ -8,7 +8,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
-
+from .pagination import BookPagination
 from .models import Book, ImageBook
 from .forms import CreateBook
 from .serializers import (
@@ -118,6 +118,7 @@ class PublishedBookListView(generics.ListAPIView):
 
     serializer_class = BookSerializer
     permission_classes = []
+    pagination_class = BookPagination
 
     def get_queryset(self):
         return Book.objects.filter(is_published=True).select_related('publisher').prefetch_related('images')
@@ -126,6 +127,7 @@ class MyBookListView(generics.ListCreateAPIView):
 
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = BookPagination
 
     def get_queryset(self):
         return Book.objects.filter(publisher=self.request.user).prefetch_related('images')
